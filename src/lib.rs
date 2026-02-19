@@ -206,9 +206,9 @@ pub fn start_battle_in_map_split(current_map : i32, in_battle : Pair<bool>, spli
         }
     }
 }
-pub fn win_battle_in_map_split(current_map : i32, battle_result : Pair<i32>, splits : &mut HashSet<String>, setting : bool, name : &str, map_id : i32) {
+pub fn win_battle_in_map_split(current_map : i32, battle_result : Pair<i32>, in_battle : Pair<bool>, splits : &mut HashSet<String>, setting : bool, name : &str, map_id : i32) {
     if setting && !splits.contains(name) {
-        if map_id == current_map && battle_result.old != 5 && battle_result.current == 5 {
+        if map_id == current_map && !in_battle.current && in_battle.old && battle_result.current == 5 {
             split(splits, name);
         }
     }
@@ -394,21 +394,17 @@ async fn main() {
 
 
                         //battle-based splits
-                        win_battle_in_map_split(map_id.current, *battle_result, &mut splits,
-                                        settings.japhet1, "japhet1", 117);
-                        win_battle_in_map_split(map_id.current, *battle_result, &mut splits,
-                                                settings.sugar, "sugar", 152);
-                        win_battle_in_map_split(map_id.current, *battle_result, &mut splits,
+                        win_battle_in_map_split(map_id.current, *battle_result, *in_battle, &mut splits,
                                                 settings.uber1_source, "uber1_source", 356);
-                        win_battle_in_map_split(map_id.current, *battle_result, &mut splits,
+                        win_battle_in_map_split(map_id.current, *battle_result, *in_battle, &mut splits,
                                                 settings.uber2_maldicion, "uber2_maldicion", 361);
-                        win_battle_in_map_split(map_id.current, *battle_result, &mut splits,
+                        win_battle_in_map_split(map_id.current, *battle_result, *in_battle, &mut splits,
                                                 settings.uber3_psal_hero, "uber3_psal_hero", 357);
-                        win_battle_in_map_split(map_id.current, *battle_result, &mut splits,
+                        win_battle_in_map_split(map_id.current, *battle_result, *in_battle, &mut splits,
                                                 settings.uber4_justus, "uber4_justus", 355);
-                        win_battle_in_map_split(map_id.current, *battle_result, &mut splits,
+                        win_battle_in_map_split(map_id.current, *battle_result, *in_battle, &mut splits,
                                                 settings.uber5_carnival, "uber5_carnival", 359);
-                        win_battle_in_map_split(map_id.current, *battle_result, &mut splits,
+                        win_battle_in_map_split(map_id.current, *battle_result, *in_battle, &mut splits,
                                                 settings.uber6_cob, "uber6_cob", 360);
 
                         //all map-change splits
@@ -426,6 +422,12 @@ async fn main() {
                                         settings.zone1, "zone1", 69, 70);
                         check_map_split(*map_id, &mut splits,
                                         settings.card_puzzle, "card_puzzle", 114, 112);
+                        if battle_result.current == 5 { //post-battle split
+                            check_map_split(*map_id, &mut splits,
+                                            settings.japhet1, "japhet1", 117, 116);
+                            check_map_split(*map_id, &mut splits,
+                                            settings.sugar, "japhet1", 152, 151);
+                        }
                         check_map_split(*map_id, &mut splits,
                                         settings.park, "park", 136, 134);
                         check_map_split(*map_id, &mut splits,
