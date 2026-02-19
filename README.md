@@ -1,6 +1,8 @@
-# off2025-autosplitter
+# OFF2025-autosplitter
 
-An auto splitter for OFF.
+An auto splitter for the OFF remake. 
+
+(the rest of this README is inherited from auto-splitter-template)
 
 ## Compilation
 
