@@ -1,5 +1,5 @@
 use std::collections::{HashSet};
-use asr::string::{ArrayCString, ArrayWString};
+use asr::string::{ArrayWString};
 use asr::{future::next_tick, game_engine::{
     unity::mono::{Module, UnityPointer, Version},
 }, settings::Gui, timer::{self}, watcher::{Watcher, Pair}, Process};
@@ -225,7 +225,7 @@ async fn main() {
 
     //UnityPointers
     let map_id_pointer = UnityPointer::<3>::new("FangamerRPG.FPGOverworldMode",0,&["instance","m_mapComp","mapID"],);
-    let event_id_pointer = UnityPointer::<5>::new("FangamerRPG.FPGLogicManager",0,&["instance", "_currentInterpreter", "_state", "owner", "eventID"]);;
+    let event_id_pointer = UnityPointer::<5>::new("FangamerRPG.FPGLogicManager",0,&["instance", "_currentInterpreter", "_state", "owner", "eventID"]);
     let logic_interpreter_pointer = UnityPointer::<4>::new("FangamerRPG.FPGLogicManager",0,&["instance", "_currentInterpreter", "ownerName", "0x14"]);
     let event_page_pointer = UnityPointer::<4>::new("FangamerRPG.FPGLogicManager",0,&["instance", "_currentInterpreter", "_state", "pageIndex"]);
     let event_line_pointer = UnityPointer::<3>::new("FangamerRPG.FPGLogicManager",0,&["instance", "_currentInterpreter", "currentLine"]);
@@ -361,11 +361,10 @@ async fn main() {
                                                 settings.area3, "area3", 214, 5, 4, 4);
                         check_event_atleast_split(map_id.current, event_id.current, event_page.current, *event_line, &mut splits,
                                                   settings.exit_the_room, "exit_the_room", 293, 1, 1, 10);
-                        //old Room chapter splits - split on the next chapter's title, which IMO doesn't interact well with the "Exit The Room" split so I'm checking by the
-                        /*check_event_atleast_split(map_id.current, event_id.current, event_page.current, *event_line, &mut splits,
+                        check_event_atleast_split(map_id.current, event_id.current, event_page.current, *event_line, &mut splits,
                                                   settings.chapter2, "chapter2", 293, 6, 9, 6);
                         check_event_atleast_split(map_id.current, event_id.current, event_page.current, *event_line, &mut splits,
-                                                  settings.chapter1, "chapter1", 340, 1, 1, 0);*/
+                                                  settings.chapter1, "chapter1", 340, 1, 1, 0);
                         check_event_atleast_split(map_id.current, event_id.current, event_page.current, *event_line, &mut splits,
                                                   settings.pure_zone2, "pure_zone2", 197, 1, 1, 10);
                         check_event_atleast_split(map_id.current, event_id.current, event_page.current, *event_line, &mut splits,
@@ -373,16 +372,16 @@ async fn main() {
                         check_event_atleast_split(map_id.current, event_id.current, event_page.current, *event_line, &mut splits,
                                                   settings.ending_switch, "ending_switch", 347, 1, 1, 6);
 
-                        //The Room early splits - old versions that split on next-chapter title, again
-                        /*check_event_new_page(map_id.current, event_id.current, *event_page, &mut splits,
+                        //The Room early splits
+                        check_event_new_page(map_id.current, event_id.current, *event_page, &mut splits,
                                              settings.chapter5, "chapter5", 293, 6, 3);
                         check_event_new_page(map_id.current, event_id.current, *event_page, &mut splits,
                                              settings.chapter4, "chapter4", 293, 6, 5);
                         check_event_new_page(map_id.current, event_id.current, *event_page, &mut splits,
-                                             settings.chapter3, "chapter3", 293, 6, 7);*/
+                                             settings.chapter3, "chapter3", 293, 6, 7);
 
-                        //new The Room splits - split on being sent back to the main room at the end of a chapter
-                        check_map_split(*map_id, &mut splits,
+                        //alternative The Room splits - split on being sent back to the main room at the end of a chapter
+                        /*check_map_split(*map_id, &mut splits,
                                         settings.chapter5, "chapter5", 297, 293);
                         check_map_split(*map_id, &mut splits,
                                         settings.chapter4, "chapter4", 310, 293);
@@ -391,10 +390,12 @@ async fn main() {
                         check_map_split(*map_id, &mut splits,
                                         settings.chapter2, "chapter2", 334, 293);
                         check_map_split(*map_id, &mut splits,
-                                        settings.chapter1, "chapter1", 339, 340);
+                                        settings.chapter1, "chapter1", 339, 340);*/
 
 
-                        //all secret boss splits
+                        //battle-based splits
+                        win_battle_in_map_split(map_id.current, *battle_result, &mut splits,
+                                        settings.japhet1, "japhet1", 117);
                         win_battle_in_map_split(map_id.current, *battle_result, &mut splits,
                                                 settings.sugar, "sugar", 152);
                         win_battle_in_map_split(map_id.current, *battle_result, &mut splits,
@@ -426,8 +427,6 @@ async fn main() {
                         check_map_split(*map_id, &mut splits,
                                         settings.card_puzzle, "card_puzzle", 114, 112);
                         check_map_split(*map_id, &mut splits,
-                                        settings.japhet1, "japhet1", 117, 116);
-                        check_map_split(*map_id, &mut splits,
                                         settings.park, "park", 136, 134);
                         check_map_split(*map_id, &mut splits,
                                         settings.residential, "residential", 145, 115);
@@ -440,15 +439,8 @@ async fn main() {
                         check_map_split(*map_id, &mut splits,
                                         settings.enoch, "enoch", 213, 2);
                     }
+                    timer::set_variable_int("Completed Splits",splits.len());
 
-                    //Zacharie%
-
-
-
-
-
-
-                    // TODO: Do something on every tick.
                     next_tick().await;
                 };
             })
