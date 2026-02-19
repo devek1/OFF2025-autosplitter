@@ -29,17 +29,6 @@ struct Settings {
     #[default = false]
     sugar : bool,
 
-    pure_zone_splits : Title,
-    /// Pure Zone 1
-    #[default = false]
-    pure_zone1 : bool,
-    /// Pure Zone 2
-    #[default = false]
-    pure_zone2 : bool,
-    /// Pure Zone 3
-    #[default = false]
-    pure_zone3 : bool,
-
     zone_1_splits : Title,
     /// Obtain Add-On Alpha
     #[default = false]
@@ -77,7 +66,7 @@ struct Settings {
     /// Japhet 1
     #[default = false]
     japhet1 : bool,
-    /// Open The Zacharie Rollercoaster Photo
+    /// Open the Zacharie Rollercoaster Photo
     #[default = false]
     zacharie_photo : bool,
     /// Park
@@ -133,6 +122,25 @@ struct Settings {
     #[default = false]
     chapter1 : bool,
 
+    ending_splits : Title,
+    /// Final Fight, Judge Ending (Adversaries purified)
+    #[default = true]
+    bad_batter : bool,
+    /// Batter Ending (Turning the switch off)
+    #[default = true]
+    ending_switch : bool,
+
+    pure_zone_splits : Title,
+    /// Pure Zone 1
+    #[default = false]
+    pure_zone1 : bool,
+    /// Pure Zone 2
+    #[default = false]
+    pure_zone2 : bool,
+    /// Pure Zone 3
+    #[default = false]
+    pure_zone3 : bool,
+
     uber_boss_splits : Title,
     /// Source
     #[default = false]
@@ -140,7 +148,7 @@ struct Settings {
     /// Maldicion
     #[default = false]
     uber2_maldicion : bool,
-    /// Psalmanazar & Herodotus
+    /// Psalmanazar and Herodotus
     #[default = false]
     uber3_psal_hero : bool,
     /// Justus
@@ -152,14 +160,6 @@ struct Settings {
     /// Cob
     #[default = false]
     uber6_cob : bool,
-
-    ending_splits : Title,
-    /// Final Fight, Judge Ending (Adversaries purified)
-    #[default = true]
-    bad_batter : bool,
-    /// Batter Ending (Turning the switch off)
-    #[default = true]
-    ending_switch : bool,
 
 }
 
