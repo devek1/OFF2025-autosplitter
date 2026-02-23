@@ -417,7 +417,7 @@ async fn main() {
                         check_map_split(*map_id, &mut splits,
                                         settings.postal_service, "postal_service", 47, 46);
                         check_map_split(*map_id, &mut splits,
-                                        settings.alma_first_half, "alma_first_half", 57, 56);
+                                        settings.alma_first_half, "alma_first_half", 56, 57);
                         check_map_split(*map_id, &mut splits,
                                         settings.zone1, "zone1", 69, 70);
                         check_map_split(*map_id, &mut splits,
