@@ -226,7 +226,7 @@ async fn main() {
     //UnityPointers
     let map_id_pointer = UnityPointer::<3>::new("FangamerRPG.FPGOverworldMode",0,&["instance","m_mapComp","mapID"],);
     let event_id_pointer = UnityPointer::<5>::new("FangamerRPG.FPGLogicManager",0,&["instance", "_currentInterpreter", "_state", "owner", "eventID"]);
-    let logic_interpreter_pointer = UnityPointer::<4>::new("FangamerRPG.FPGLogicManager",0,&["instance", "_currentInterpreter", "ownerName", "0x14"]);
+    let event_name_pointer = UnityPointer::<4>::new("FangamerRPG.FPGLogicManager", 0, &["instance", "_currentInterpreter", "ownerName", "0x14"]);
     let event_page_pointer = UnityPointer::<4>::new("FangamerRPG.FPGLogicManager",0,&["instance", "_currentInterpreter", "_state", "pageIndex"]);
     let event_line_pointer = UnityPointer::<3>::new("FangamerRPG.FPGLogicManager",0,&["instance", "_currentInterpreter", "currentLine"]);
     let in_battle_pointer = UnityPointer::<3>::new("FangamerRPG.FPGOverworldMode",0,&["instance", "battleManager", "inBattle"]);
@@ -272,13 +272,13 @@ async fn main() {
                     let battle_result = battle_result_watcher.update_infallible(battle_result_pointer.deref(&process, &module, &image).unwrap_or_else(|e| -1));
                     let adversaries_purified = adversaries_purified_watcher.update_infallible(adversaries_purified_pointer.deref(&process, &module, &image).unwrap_or_else(|e| false));
                     let mut zacharie_photo;
-                    if let Ok(interpreter_name_wstr) = logic_interpreter_pointer.deref::<ArrayWString<32>>(&process, &module, &image) {
-                        let interpreter_name = String::from_utf16_lossy(&interpreter_name_wstr);
-                        zacharie_photo = zacharie_photo_watcher.update_infallible(interpreter_name == "photo de zacharie");
-                        timer::set_variable("Interpreter Name",&interpreter_name);
+                    if let Ok(event_name_wstr) = event_name_pointer.deref::<ArrayWString<32>>(&process, &module, &image) {
+                        let event_name = String::from_utf16_lossy(&event_name_wstr);
+                        zacharie_photo = zacharie_photo_watcher.update_infallible(event_name == "photo de zacharie");
+                        timer::set_variable("Event Name",&event_name);
                     } else {
                         zacharie_photo = zacharie_photo_watcher.update_infallible(false);
-                        timer::set_variable("Interpreter Name","N/A");
+                        timer::set_variable("Event Name","N/A");
                     };
 
 
@@ -426,7 +426,7 @@ async fn main() {
                             check_map_split(*map_id, &mut splits,
                                             settings.japhet1, "japhet1", 117, 116);
                             check_map_split(*map_id, &mut splits,
-                                            settings.sugar, "japhet1", 152, 151);
+                                            settings.sugar, "sugar", 152, 151);
                         }
                         check_map_split(*map_id, &mut splits,
                                         settings.park, "park", 136, 134);
